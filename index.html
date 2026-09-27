@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前端入门 HTML/CSS 模板包 · 教学示例源码</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230ea5a4'/><text x='50' y='68' font-size='55' text-anchor='middle' fill='white' font-family='monospace' font-weight='bold'>&lt;/&gt;</text></svg>">
+<style>
+/* ============ 基础与变量 ============ */
+:root{
+  --bg:#0b1120;
+  --bg-soft:#111a2e;
+  --card:#152038;
+  --card-2:#1a2745;
+  --line:#243354;
+  --text:#e6edf7;
+  --muted:#93a3bd;
+  --accent:#0ea5a4;
+  --accent-2:#2dd4bf;
+  --warn:#f59e0b;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  user-select:none;
+}
+a{color:var(--accent-2);text-decoration:none;}
+img{max-width:100%;}
+
+/* ============ 顶部导航 ============ */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(11,17,32,.8);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1100px;margin:0 auto;
+  padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;}
+.brand-logo{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:grid;place-items:center;
+  color:#062522;font-weight:900;font-family:monospace;
+}
+.nav-links{display:flex;gap:22px;font-size:14px;}
+.nav-links a{color:var(--muted);transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{
+  background:var(--accent);color:#042321!important;
+  padding:8px 16px;border-radius:8px;font-weight:600;
+}
+@media(max-width:640px){.nav-links{display:none;}}
+
+/* ============ Hero ============ */
+.hero{
+  max-width:1100px;margin:0 auto;
+  padding:80px 24px 60px;
+  text-align:center;
+  position:relative;
+}
+.hero::before{
+  content:"";position:absolute;inset:-100px 0 auto;
+  height:400px;
+  background:radial-gradient(ellipse at 50% 0%,rgba(14,165,164,.18),transparent 60%);
+  pointer-events:none;z-index:-1;
+}
+.badge{
+  display:inline-block;
+  padding:6px 14px;border-radius:999px;
+  background:rgba(14,165,164,.12);
+  color:var(--accent-2);
+  font-size:13px;font-weight:500;
+  border:1px solid rgba(14,165,164,.3);
+  margin-bottom:22px;
+}
+.hero h1{
+  font-size:clamp(32px,5.5vw,56px);
+  line-height:1.15;
+  font-weight:800;
+  letter-spacing:-.02em;
+  margin-bottom:20px;
+}
+.hero h1 .hl{
+  background:linear-gradient(120deg,var(--accent-2),#7dd3fc);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero p{
+  font-size:clamp(15px,2vw,18px);
+  color:var(--muted);
+  max-width:640px;margin:0 auto 32px;
+}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn{
+  padding:13px 26px;border-radius:10px;
+  font-size:15px;font-weight:600;cursor:pointer;
+  border:none;transition:transform .15s,box-shadow .15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  color:#042321;
+  box-shadow:0 8px 24px rgba(14,165,164,.35);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(14,165,164,.5);}
+.btn-ghost{
+  background:transparent;color:var(--text);
+  border:1px solid var(--line);
+}
+.btn-ghost:hover{background:var(--card);}
+.price-tag{
+  margin-top:26px;font-size:14px;color:var(--muted);
+}
+.price-tag b{color:var(--accent-2);font-size:18px;}
+
+/* ============ 通用区块 ============ */
+.section{max-width:1100px;margin:0 auto;padding:60px 24px;}
+.section-title{
+  font-size:clamp(24px,3.5vw,34px);
+  font-weight:700;margin-bottom:10px;letter-spacing:-.01em;
+}
+.section-sub{color:var(--muted);margin-bottom:36px;max-width:680px;}
+
+/* ============ 模板卡片 ============ */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}}
+.tpl-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+.tpl-card:hover{transform:translateY(-4px);border-color:var(--accent);}
+.tpl-preview{
+  height:160px;
+  background:var(--bg-soft);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.tpl-body{padding:18px 20px 22px;}
+.tpl-body h3{font-size:17px;margin-bottom:6px;}
+.tpl-body p{font-size:13.5px;color:var(--muted);}
+.tpl-tag{
+  display:inline-block;font-size:11px;
+  padding:3px 8px;border-radius:5px;
+  background:rgba(14,165,164,.12);color:var(--accent-2);
+  margin-bottom:10px;font-family:monospace;
+}
+
+/* 预览小示意图 */
+.mock-headings{display:flex;flex-direction:column;gap:5px;align-items:flex-start;padding:10px 20px;}
+.mock-headings span{color:var(--muted);font-family:monospace;}
+.mock-h1{font-size:22px;font-weight:800;color:var(--text)!important;}
+.mock-h2{font-size:18px;font-weight:700;color:#cdd8ea!important;}
+.mock-h3{font-size:15px;font-weight:600;color:#aab8d0!important;}
+.mock-h4{font-size:13px;font-weight:600;color:#8da0bd!important;}
+.mock-h5{font-size:11.5px;color:#7c8fad!important;}
+.mock-h6{font-size:10.5px;color:#6b7e9c!important;}
+
+.mock-btns{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;}
+.mb{padding:7px 14px;border-radius:7px;font-size:12px;font-weight:600;}
+.mb-1{background:var(--accent);color:#042321;}
+.mb-2{background:transparent;border:1.5px solid var(--accent);color:var(--accent-2);}
+.mb-3{background:#f43f5e;color:#fff;}
+.mb-4{background:#f59e0b;color:#000;}
+.mb-5{background:#1e293b;color:#cbd5e1;border:1px solid var(--line);}
+
+.mock-404{text-align:center;}
+.mock-404 .big{font-size:48px;font-weight:900;color:var(--accent-2);font-family:monospace;letter-spacing:2px;}
+.mock-404 small{color:var(--muted);font-size:12px;}
+
+/* ============ 在线预览 iframe 区 ============ */
+.preview-box{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.preview-tabs{
+  display:flex;border-bottom:1px solid var(--line);
+  background:var(--bg-soft);
+  overflow-x:auto;
+}
+.preview-tab{
+  padding:12px 18px;font-size:13.5px;color:var(--muted);
+  cursor:pointer;border-bottom:2px solid transparent;
+  white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;
+  font-family:inherit;
+}
+.preview-tab.active{color:var(--accent-2);border-bottom-color:var(--accent);}
+.preview-stage{
+  background:#fff;
+  height:420px;
+  position:relative;
+}
+.preview-stage iframe{
+  width:100%;height:100%;border:none;background:#fff;
+}
+.preview-note{
+  padding:10px 16px;font-size:12px;color:var(--muted);
+  background:var(--bg-soft);border-top:1px solid var(--line);
+}
+
+/* ============ 包含内容清单 ============ */
+.include-list{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+}
+@media(max-width:640px){.include-list{grid-template-columns:1fr;}}
+.include-item{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.include-item .icon{
+  flex-shrink:0;width:28px;height:28px;border-radius:7px;
+  background:rgba(14,165,164,.12);color:var(--accent-2);
+  display:grid;place-items:center;font-size:14px;font-weight:700;
+}
+.include-item b{display:block;font-size:14.5px;margin-bottom:2px;}
+.include-item span{font-size:13px;color:var(--muted);}
+
+/* ============ 购买说明 ============ */
+.buy-card{
+  background:linear-gradient(135deg,var(--card),var(--card-2));
+  border:1px solid var(--accent);
+  border-radius:16px;padding:36px;
+  text-align:center;box-shadow:var(--shadow);
+}
+.buy-card .price{
+  font-size:48px;font-weight:800;color:var(--accent-2);
+  font-family:monospace;
+}
+.buy-card .price small{font-size:16px;color:var(--muted);font-weight:400;}
+.buy-features{
+  text-align:left;max-width:420px;margin:20px auto 26px;
+  font-size:14px;color:var(--muted);
+}
+.buy-features li{margin:8px 0;list-style:none;padding-left:24px;position:relative;}
+.buy-features li::before{
+  content:"✓";position:absolute;left:0;color:var(--accent-2);font-weight:700;
+}
+
+/* ============ FAQ ============ */
+.faq-item{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:18px 20px;margin-bottom:10px;
+}
+.faq-item summary{
+  cursor:pointer;font-weight:600;font-size:15px;
+  list-style:none;display:flex;justify-content:space-between;align-items:center;
+}
+.faq-item summary::after{content:"+";color:var(--accent-2);font-size:20px;}
+.faq-item[open] summary::after{content:"−";}
+.faq-item p{margin-top:10px;font-size:14px;color:var(--muted);}
+
+/* ============ 页脚 ============ */
+.footer{
+  border-top:1px solid var(--line);
+  padding:30px 24px;text-align:center;
+  color:var(--muted);font-size:13px;
+}
+
+/* 提示 toast */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--card-2);color:var(--text);
+  padding:12px 20px;border-radius:10px;border:1px solid var(--line);
+  font-size:14px;opacity:0;transition:all .3s;z-index:100;
+}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><div class="brand-logo">&lt;/&gt;</div> HTML Starter Pack</div>
+    <div class="nav-links">
+      <a href="#templates">模板预览</a>
+      <a href="#include">包含内容</a>
+      <a href="#buy">购买</a>
+      <a href="download.html">下载页</a>
+      <a href="download-config.html">页面源码</a>
+      <a href="#faq">常见问题</a>
+    </div>
+    <a href="download.html" class="nav-cta">立即获取</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="badge">初中信息科技 · 前端入门教学模板</div>
+  <h1>从零开始写网页的<br><span class="hl">第一套模板包</span></h1>
+  <p>专为刚接触 HTML / CSS 的学习者设计。包含标题层级演示、多款美化按钮、404 错误页模板，全部原生代码、带详细中文注释，打开就能改。</p>
+  <div class="hero-actions">
+    <a href="#preview" class="btn btn-primary">在线预览效果</a>
+    <a href="#buy" class="btn btn-ghost">查看价格</a>
+  </div>
+  <div class="price-tag">一次性购买 · 源码交付 · <b>¥6 / 套</b></div>
+</header>
+
+<!-- 模板卡片 -->
+<section class="section" id="templates">
+  <h2 class="section-title">包含三套模板</h2>
+  <p class="section-sub">每一套都是独立的 HTML 文件，双击即可在浏览器打开。下面是卡片缩略效果，往下滑可以在线真实预览。</p>
+  <div class="grid">
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <div class="mock-headings">
+          <span class="mock-h1">H1 一级标题</span>
+          <span class="mock-h2">H2 二级标题</span>
+          <span class="mock-h3">H3 三级标题</span>
+          <span class="mock-h4">H4 四级标题</span>
+          <span class="mock-h5">H5 五级标题</span>
+          <span class="mock-h6">H6 六级标题</span>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <span class="tpl-tag">headings.html</span>
+        <h3>标题层级演示</h3>
+        <p>h1 到 h6 全套示例，直观展示字号、字重差异，适合课堂讲解网页标题结构。</p>
+      </div>
+    </div>
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <div class="mock-btns">
+          <span class="mb mb-1">主按钮</span>
+          <span class="mb mb-2">描边按钮</span>
+          <span class="mb mb-3">危险按钮</span>
+          <span class="mb mb-4">警告按钮</span>
+          <span class="mb mb-5">禁用按钮</span>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <span class="tpl-tag">buttons.html</span>
+        <h3>CSS 美化按钮集合</h3>
+        <p>5 种常用按钮样式，含 hover 悬停效果，注释写清每个 CSS 属性的作用。</p>
+      </div>
+    </div>
+    <div class="tpl-card">
+      <div class="tpl-preview">
+        <div class="mock-404">
+          <div class="big">404</div>
+          <small>页面走丢了</small>
+        </div>
+      </div>
+      <div class="tpl-body">
+        <span class="tpl-tag">404.html</span>
+        <h3>简约 404 错误页</h3>
+        <p>干净的错误提示页，带返回首页按钮，可直接改成自己网站的样式。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 在线预览 -->
+<section class="section" id="preview">
+  <h2 class="section-title">在线真实预览</h2>
+  <p class="section-sub">点击标签切换查看三套模板的实际渲染效果。下面是精简预览版，完整带注释源码购买后交付。</p>
+  <div class="preview-box">
+    <div class="preview-tabs">
+      <button class="preview-tab active" data-tab="headings">标题层级</button>
+      <button class="preview-tab" data-tab="buttons">按钮集合</button>
+      <button class="preview-tab" data-tab="404">404 页面</button>
+    </div>
+    <div class="preview-stage">
+      <iframe id="previewFrame" sandbox="allow-same-origin"></iframe>
+    </div>
+    <div class="preview-note">预览为精简演示版 · 完整源码含中文注释，购买后发送压缩包</div>
+  </div>
+</section>
+
+<!-- 包含内容 -->
+<section class="section" id="include">
+  <h2 class="section-title">你会拿到什么</h2>
+  <p class="section-sub">一个 zip 压缩包，解压即可使用，无需安装任何工具。</p>
+  <div class="include-list">
+    <div class="include-item"><div class="icon">①</div><div><b>headings.html</b><span>h1–h6 标题层级演示页</span></div></div>
+    <div class="include-item"><div class="icon">②</div><div><b>buttons.html</b><span>5 款 CSS 按钮 + hover 效果</span></div></div>
+    <div class="include-item"><div class="icon">③</div><div><b>404.html</b><span>简约错误页模板</span></div></div>
+    <div class="include-item"><div class="icon">④</div><div><b>使用说明.txt</b><span>如何打开、修改文字与颜色</span></div></div>
+    <div class="include-item"><div class="icon">⑤</div><div><b>全部代码带中文注释</b><span>每一行关键属性都有解释</span></div></div>
+    <div class="include-item"><div class="icon">⑥</div><div><b>纯原生 HTML + CSS</b><span>无框架、无依赖，双击即开</span></div></div>
+  </div>
+</section>
+
+<!-- 购买 -->
+<section class="section" id="buy">
+  <div class="buy-card">
+    <h2 class="section-title">一次性买断</h2>
+    <div class="price">¥6<small> / 套</small></div>
+    <ul class="buy-features">
+      <li>三套模板完整源码（带注释）</li>
+      <li>永久使用，可用于自己的作业 / 网站</li>
+      <li>可自由修改颜色、文字、布局</li>
+      <li>无二次收费，无订阅</li>
+    </ul>
+    <a class="btn btn-primary" href="download.html">前往下载页</a>
+    <p style="margin-top:14px;font-size:12px;color:var(--muted);">本页面仅作预览 · 付费后发送 zip 压缩包</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <h2 class="section-title">常见问题</h2>
+  <p class="section-sub">购买前可能想问的几件事。</p>
+  <details class="faq-item">
+    <summary>需要安装什么软件吗？</summary>
+    <p>不需要。所有文件都是 .html，双击就能在浏览器里打开。想改代码用记事本就行。</p>
+  </details>
+  <details class="faq-item">
+    <summary>买了之后可以商用吗？</summary>
+    <p>可以用于自己的作业、个人网站、教学演示。不允许把模板原样或改头换面后再次打包售卖。</p>
+  </details>
+  <details class="faq-item">
+    <summary>是在线服务吗？需要每月续费吗？</summary>
+    <p>不是。一次性付款，拿到源码文件，之后没有任何后续费用，也不需要托管给我。</p>
+  </details>
+  <details class="faq-item">
+    <summary>手机上能打开吗？</summary>
+    <p>模板本身做了响应式，手机浏览器打开也能正常显示。但写代码建议用电脑。</p>
+  </details>
+</section>
+
+<footer class="footer">
+  © 2026 HTML Starter Pack · 原生 HTML / CSS · 仅供学习交流
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+ *  预览切换逻辑（正常业务代码）
+ * ============================================================ */
+const previewContent = {
+  headings: `<body style="font-family:sans-serif;padding:40px;background:#fff;color:#222;">
+    <h1 style="font-size:36px;">一级标题 H1</h1>
+    <h2 style="font-size:28px;">二级标题 H2</h2>
+    <h3 style="font-size:22px;">三级标题 H3</h3>
+    <h4 style="font-size:18px;">四级标题 H4</h4>
+    <h5 style="font-size:14px;">五级标题 H5</h5>
+    <h6 style="font-size:12px;color:#666;">六级标题 H6</h6>
+    <p style="color:#888;font-size:13px;margin-top:20px;">这是一段普通正文，用于对比标题与段落的字号差异。</p>
+  </body>`,
+  buttons: `<body style="font-family:sans-serif;padding:40px;background:#fff;">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:320px;">
+      <button style="padding:10px 18px;background:#0ea5a4;color:#fff;border:none;border-radius:8px;font-size:14px;">主按钮</button>
+      <button style="padding:10px 18px;background:#fff;color:#0ea5a4;border:2px solid #0ea5a4;border-radius:8px;font-size:14px;">描边按钮</button>
+      <button style="padding:10px 18px;background:#f43f5e;color:#fff;border:none;border-radius:8px;font-size:14px;">危险按钮</button>
+      <button style="padding:10px 18px;background:#f59e0b;color:#000;border:none;border-radius:8px;font-size:14px;">警告按钮</button>
+      <button disabled style="padding:10px 18px;background:#e2e8f0;color:#94a3b8;border:none;border-radius:8px;font-size:14px;cursor:not-allowed;">禁用按钮</button>
+    </div>
+  </body>`,
+  "404": `<body style="font-family:sans-serif;background:#f8fafc;height:100vh;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="font-size:80px;font-weight:900;color:#0ea5a4;font-family:monospace;">404</div>
+    <p style="color:#64748b;margin:10px 0 24px;">抱歉，你访问的页面走丢了</p>
+    <button style="padding:10px 22px;background:#0ea5a4;color:#fff;border:none;border-radius:8px;cursor:pointer;">返回首页</button>
+  </body>`
+};
+function setPreview(key){
+  const f = document.getElementById('previewFrame');
+  f.srcdoc = previewContent[key] || '';
+  document.querySelectorAll('.preview-tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.tab===key);
+  });
+}
+document.querySelectorAll('.preview-tab').forEach(t=>{
+  t.addEventListener('click', ()=>setPreview(t.dataset.tab));
+});
+setPreview('headings');
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+ *  防查看源码 / 防调试脚本（加强版）
+ * ============================================================ */
+(function(){
+  'use strict';
+
+  /* 1. 拦截右键菜单 */
+  document.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    showToast('右键菜单已禁用');
+    return false;
+  });
+
+  /* 2. 拦截常见快捷键 */
+  const blockedKeys = {
+    123: 'F12',                       // F12
+    'u': true, 'U': true,             // Ctrl+U 查看源码
+    's': true, 'S': true,             // Ctrl+S 保存
+    'p': true, 'P': true,             // Ctrl+P 打印
+    'c': true, 'C': true,             // Ctrl+Shift+C 元素检查
+    'i': true, 'I': true,             // Ctrl+Shift/I
+    'j': true, 'J': true,             // Ctrl+Shift+J
+  };
+  document.addEventListener('keydown', function(e){
+    const k = e.key;
+    // F12
+    if(e.keyCode === 123 || k === 'F12'){
+      e.preventDefault();
+      showToast('开发者工具已被禁用');
+      return false;
+    }
+    // Ctrl / Cmd 组合
+    if(e.ctrlKey || e.metaKey){
+      if(blockedKeys[k]){
+        e.preventDefault();
+        showToast('该操作已被禁用');
+        return false;
+      }
+      // Ctrl+Shift+I / J / C
+      if(e.shiftKey && (k==='I'||k==='J'||k==='C'||k==='i'||k==='j'||k==='c')){
+        e.preventDefault();
+        showToast('开发者工具已被禁用');
+        return false;
+      }
+    }
+  });
+
+  /* 3. 拦截复制 / 剪切 */
+  ['copy','cut','dragstart'].forEach(evt=>{
+    document.addEventListener(evt, function(e){
+      e.preventDefault();
+      showToast('复制操作已禁用');
+      return false;
+    });
+  });
+
+  /* 4. DevTools 打开检测（尺寸差 + debugger 双保险） */
+  let devtoolsOpen = false;
+  function checkSize(){
+    const threshold = 160;
+    const w = window.outerWidth - window.innerWidth > threshold;
+    const h = window.outerHeight - window.innerHeight > threshold;
+    if(w || h){
+      if(!devtoolsOpen){
+        devtoolsOpen = true;
+        onDevtoolsDetected();
+      }
+    } else {
+      devtoolsOpen = false;
+    }
+  }
+  function onDevtoolsDetected(){
+    showToast('检测到开发者工具，页面已锁定');
+    // 清空可视区内容，仅保留提示
+    document.body.style.filter = 'blur(12px)';
+    document.body.style.pointerEvents = 'none';
+    // 1.5 秒后自动恢复（给个警告后放行，避免误伤）
+    setTimeout(()=>{
+      document.body.style.filter = '';
+      document.body.style.pointerEvents = '';
+    }, 1500);
+  }
+  window.addEventListener('resize', checkSize);
+  setInterval(checkSize, 1200);
+
+  /* 5. 用 console.log 的 toString 检测 DevTools（弱检测，仅提示） */
+  const probe = /ss/.constructor('return /sf/')();
+  Object.defineProperty(probe, 'id', {
+    get: function(){
+      if(!devtoolsOpen) onDevtoolsDetected();
+      return '';
+    }
+  });
+  setInterval(()=>{
+    try { console.log('%c', probe); console.clear(); } catch(e){}
+  }, 2500);
+
+  /* 6. 禁止选择文本（CSS 已加，JS 兜底） */
+  document.addEventListener('selectstart', function(e){
+    e.preventDefault();
+    return false;
+  });
+
+  /* 7. 禁止拖出图片 / 链接 */
+  document.addEventListener('dragover', e=>e.preventDefault());
+
+})();
+</script>
+</body>
+</html>
